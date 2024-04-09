@@ -5,38 +5,56 @@ import java.util.ArrayList;
 public class Tablero {
 
     private int[][] casillas;
+    private int [][] casillasUsuario;
 
     private ArrayList<Barco> barcos = new ArrayList<>();
 
 
 
-    public Tablero(int[][] casillas, ArrayList<Barco> barcos) {
-        this.casillas = casillas;
-        this.barcos = barcos;
-    }
-
-
     public void mostrarTableroRival() {
-        System.out.println("Tablero Rival:");
-        System.out.println("  A B C D E F G H I J");
         for (int fila = 0; fila < casillas.length; fila++) {
             System.out.print(fila + 1); // Número de fila, ajustando porque el índice comienza en 0
             if (fila < 9) System.out.print(" "); // Añade un espacio extra para alinear los dígitos de un solo carácter
             for (int columna = 0; columna < casillas[fila].length; columna++) {
                 if (casillas[fila][columna] != 1 && casillas[fila][columna] != 2) {
-                    System.out.print("~ "); // Casilla no disparada
+                    System.out.print("~  "); // Casilla no disparada
                 } else if(casillas[fila][columna] == 1) {
-                    System.out.print("X "); // Disparo fallado
+                    System.out.print("X  "); // Disparo fallado
                 } else if(casillas[fila][columna] == 2){
-                    System.out.print("O "); // Disparo acertado
+                    System.out.print("O  "); // Disparo acertado
                 }
             }
             System.out.println(); // Nueva línea al final de cada fila
         }
     }
 
+    public void mostrarTableroUsuario(){
+
+        for (int fila = 0; fila < casillasUsuario.length; fila++) {
+            System.out.print(fila + 1); // Número de fila, ajustando porque el índice comienza en 0
+            if (fila < 9) System.out.print(" "); // Añade un espacio extra para alinear los dígitos de un solo carácter
+            for (int columna = 0; columna < casillasUsuario[fila].length; columna++) {
+                if (casillasUsuario[fila][columna] != 1 && casillasUsuario[fila][columna] != 2 && casillasUsuario[fila][columna] != 10) {
+                    System.out.print("~  "); // Casilla no disparada
+                } else if(casillasUsuario[fila][columna] == 1) {
+                    System.out.print("X  "); // Disparo fallado
+                } else if(casillasUsuario[fila][columna] == 2){
+                    System.out.print("O  "); // Disparo acertado
+                } else if (casillasUsuario[fila][columna] == 10) {
+                    System.out.print("[] ");
+                }
+            }
+            System.out.println(); // Nueva línea al final de cada fila
+        }
 
 
+    }
+
+    public Tablero(int[][] casillas, int[][] casillasUsuario, ArrayList<Barco> barcos) {
+        this.casillas = casillas;
+        this.casillasUsuario = casillasUsuario;
+        this.barcos = barcos;
+    }
 
     public void disparar(int fila, int columna){
 
@@ -48,6 +66,14 @@ public class Tablero {
             this.casillas[fila][columna] = 2;
 
         }
+    }
+
+    public int[][] getCasillasUsuario() {
+        return casillasUsuario;
+    }
+
+    public void setCasillasUsuario(int[][] casillasUsuario) {
+        this.casillasUsuario = casillasUsuario;
     }
 
     public void meterBarco(Barco nuevo){

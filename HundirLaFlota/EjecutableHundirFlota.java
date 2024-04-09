@@ -29,9 +29,9 @@ public class EjecutableHundirFlota {
             System.out.println("Error de lectura");
         }
 
-
         ArrayList<Barco> barcos = new ArrayList<>();
-        Tablero nuevo = new Tablero(posiciones, barcos);
+        int [][] posicionesusuario = turnos(sc);
+        Tablero nuevo = new Tablero(posiciones,posicionesusuario,barcos);
         System.out.println("    __  __           _    _     _         ______ _           _           ");
         System.out.println("   |  \\/  |         | |  | |   (_)       |  ____(_)         | |          ");
         System.out.println("   | \\  / | __ _  __| |  | |    _  __ _  | |__   _ _ __   __| | ___ _ __ ");
@@ -42,7 +42,9 @@ public class EjecutableHundirFlota {
         System.out.println("                                   |___/                                 ");
         System.out.println("Bienvenido al juego de Hundir la Flota");
         System.out.println("--------------------------------------");
+
         menu(nuevo, sc);
+
     }
 
     public static void menu (Tablero nuevo, Scanner sc){
@@ -53,10 +55,12 @@ public class EjecutableHundirFlota {
             System.out.println("Pulsa 2 para disparar al tablero rival");
             //Hacer guardar partida para dejar todos los turnos y tableros en su situacion anterior
             System.out.println("Pulsa 3 para guardar partida");
-            System.out.println("Pulsa 4 para salir de juego");
+            System.out.println("Pulsa 4 para ver tu tablero");
+            System.out.println("Pulsa 5 para que el enemigo te ataque");
+            System.out.println("Pulsa 6 para salir");
 
             opcion = Integer.parseInt(sc.nextLine());
-            if (opcion !=4) {
+            if (opcion !=6) {
                 if (opcion == 1) {
                     tableroRival(nuevo);
 
@@ -64,13 +68,19 @@ public class EjecutableHundirFlota {
                     disparar(nuevo, sc);
                 } else if (opcion == 3) {
                     guardarPartida(nuevo);
+                } else if (opcion == 4) {
+                    tableroUsuario(nuevo, sc);
+                } else if (opcion == 5) {
+                    disparoEnemigo(nuevo, sc);
                 } else {
                     System.out.println("Introduce un número correcto...");
                 }
             }
-        }while (opcion != 4);
+        }while (opcion != 6);
     }
     public static void tableroRival (Tablero nuevo){
+        System.out.println("Tablero Rival:");
+        System.out.println("  A  B  C  D  E  F  G  H  I  J");
         nuevo.mostrarTableroRival();
     }
     public static void disparar (Tablero nuevo, Scanner sc){
@@ -90,24 +100,59 @@ public class EjecutableHundirFlota {
 
         File f = new File("C:\\Users\\Eduardo\\Desktop\\Principal\\Programación\\HundirLaFlota\\TableroEnemigo.csv");
         try (FileWriter fw = new FileWriter(f)){
-
             for (int fila = 0; fila < nuevo.getCasillas().length; fila++) {
                 for (int columna = 0; columna < nuevo.getCasillas()[fila].length; columna++) {
                     fw.write(nuevo.getCasillas()[fila][columna] + " ");
                 }
                 fw.write("\n");
             }
-
-
-
-
         } catch (Exception e){
             System.out.println("Archivo existente, quieres sobreescribirlo o añadir datos al final?");
         }
 
-
-
+        //Falta por guardar el archivo del tablero del usuario tambien que hay que incluir a este método
 
         System.out.println("Partida guardada!");
+    }
+
+    public static int [][] turnos(Scanner sc){
+        String f ="C:\\Users\\Eduardo\\Desktop\\Principal\\Programación\\HundirLaFlota\\TableroUsuario.csv";
+        int [][] posicionesaliado = new int[10][10];
+        String guardar;
+        System.out.println("Abre el cvs de Tablero Usuario y coloca tus barcos.");
+        System.out.println("Pulsa la tecla g para guardar los cambios y confirmar tus posiciones.");
+        guardar = sc.nextLine();
+        if (guardar.equalsIgnoreCase("g")){
+            try (Scanner scFile = new Scanner(new File(f))){
+                while (scFile.hasNextInt()){
+                    for (int fila = 0; fila < posicionesaliado.length; fila++) {
+                        for (int columna = 0; columna < posicionesaliado[fila].length; columna++) {
+                            posicionesaliado[fila][columna] = scFile.nextInt();
+                        }
+                    }
+                }
+
+            }catch (Exception e){
+                System.out.println("Error de lectura");
+            }
+
+        }else{
+            System.out.println("Tecla incorrecta");
+        }
+        return posicionesaliado;
+    }
+
+    public static void tableroUsuario (Tablero nuevo, Scanner sc){
+        System.out.println("Tablero Usuario:");
+        System.out.println("  A  B  C  D  E  F  G  H  I  J");
+        nuevo.mostrarTableroUsuario();
+
+
+    }
+    public static void disparoEnemigo (Tablero nuevo, Scanner sc){
+
+
+
+
     }
 }
