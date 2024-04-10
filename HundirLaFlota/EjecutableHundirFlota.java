@@ -110,7 +110,19 @@ public class EjecutableHundirFlota {
             System.out.println("Archivo existente, quieres sobreescribirlo o añadir datos al final?");
         }
 
-        //Falta por guardar el archivo del tablero del usuario tambien que hay que incluir a este método
+
+        File g = new File("C:\\Users\\Eduardo\\Desktop\\Principal\\Programación\\HundirLaFlota\\TableroUsuario.csv");
+        try (FileWriter fw = new FileWriter(g)){
+            for (int fila = 0; fila < nuevo.getCasillasUsuario().length; fila++) {
+                for (int columna = 0; columna < nuevo.getCasillasUsuario()[fila].length; columna++) {
+                    fw.write(nuevo.getCasillasUsuario()[fila][columna] + " ");
+                }
+                fw.write("\n");
+            }
+        } catch (Exception e){
+            System.out.println("Archivo existente, quieres sobreescribirlo o añadir datos al final?");
+        }
+
 
         System.out.println("Partida guardada!");
     }
@@ -150,9 +162,8 @@ public class EjecutableHundirFlota {
 
     }
     public static void disparoEnemigo (Tablero nuevo, Scanner sc){
-
-
-
+        System.out.println("Turno del rival............");
+        nuevo.disparoEnemigo();
 
     }
 }

@@ -68,6 +68,26 @@ public class Tablero {
         }
     }
 
+    public void disparoEnemigo(){
+       double filas =Math.random() *10;
+       int fila = (int) filas;
+       double columnas = Math.random() * 10;
+       int columna = (int) columnas;
+        System.out.println("El enemigo ha disparado en la posición: " + fila + ","  + columna);
+
+        if (this.casillasUsuario[fila][columna] == 0){
+            System.out.println("Agua!!!");
+            this.casillasUsuario[fila][columna] = 1;
+        } else if (this.casillasUsuario[fila][columna] == 10) {
+            System.out.println("Disparo Acertado!!");
+            this.casillasUsuario[fila][columna] = 2;
+
+        }
+
+
+
+    }
+
     public int[][] getCasillasUsuario() {
         return casillasUsuario;
     }
