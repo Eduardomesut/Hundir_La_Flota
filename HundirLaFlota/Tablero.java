@@ -68,12 +68,9 @@ public class Tablero {
         }
     }
 
-    public void disparoEnemigo(){
-       double filas =Math.random() *10;
-       int fila = (int) filas;
-       double columnas = Math.random() * 10;
-       int columna = (int) columnas;
-        System.out.println("El enemigo ha disparado en la posición: " + fila + ","  + columna);
+    public void disparoEnemigo(int fila, int columna){
+        // Hacer que se repita mientras el enemigo acierta el disparo
+
 
         if (this.casillasUsuario[fila][columna] == 0){
             System.out.println("Agua!!!");

@@ -50,6 +50,7 @@ public class EjecutableHundirFlota {
     public static void menu (Tablero nuevo, Scanner sc){
         int opcion;
         do {
+            //Crear diferentes armas que solo tengas 1 (IA y jugador)pero que sea una bomba que destruya varias casillas subyacentes
             //Antes de esto hacer menu de contunuar partida o de nueva partida
             System.out.println("Pulsa 1 para ver el tablero rival");
             System.out.println("Pulsa 2 para disparar al tablero rival");
@@ -57,10 +58,12 @@ public class EjecutableHundirFlota {
             System.out.println("Pulsa 3 para guardar partida");
             System.out.println("Pulsa 4 para ver tu tablero");
             System.out.println("Pulsa 5 para que el enemigo te ataque");
-            System.out.println("Pulsa 6 para salir");
+            System.out.println("Pulsa 6 para lanzar arma atómica");
+            System.out.println("Pulsa 7 para salir");
+            //Hacer método que con nueva partida se reseteen los tableros a 0.
 
             opcion = Integer.parseInt(sc.nextLine());
-            if (opcion !=6) {
+            if (opcion !=7) {
                 if (opcion == 1) {
                     tableroRival(nuevo);
 
@@ -72,11 +75,13 @@ public class EjecutableHundirFlota {
                     tableroUsuario(nuevo, sc);
                 } else if (opcion == 5) {
                     disparoEnemigo(nuevo, sc);
+                } else if (opcion == 6) {
+                    bombaAtomica(nuevo, sc);
                 } else {
                     System.out.println("Introduce un número correcto...");
                 }
             }
-        }while (opcion != 6);
+        }while (opcion != 7);
     }
     public static void tableroRival (Tablero nuevo){
         System.out.println("Tablero Rival:");
@@ -86,13 +91,17 @@ public class EjecutableHundirFlota {
     public static void disparar (Tablero nuevo, Scanner sc){
         int fila;
         int columna;
-        System.out.println("----------Tablero rival-----------");
-        nuevo.mostrarTableroRival();
-        System.out.println("Selecciona una posicion del tablero a la que disparar (fila columna)");
-        fila = sc.nextInt() -1;
-        columna = sc.nextInt()-1;
-        sc.nextLine();
-        nuevo.disparar(fila, columna);
+
+        do {
+            System.out.println("----------Tablero rival-----------");
+            nuevo.mostrarTableroRival();
+            System.out.println("Selecciona una posicion del tablero a la que disparar (fila columna)");
+            fila = sc.nextInt() -1;
+            columna = sc.nextInt()-1;
+            sc.nextLine();
+            nuevo.disparar(fila, columna);
+        }while (nuevo.getCasillas()[fila][columna] == 2);
+
     }
     public static void guardarPartida (Tablero nuevo){
 
@@ -162,8 +171,27 @@ public class EjecutableHundirFlota {
 
     }
     public static void disparoEnemigo (Tablero nuevo, Scanner sc){
-        System.out.println("Turno del rival............");
-        nuevo.disparoEnemigo();
+        // Generar aqui los numeros aleatorios para poder hacer el do while como en el de disparoEnemigo, y que repita tirada
+        // si ha golpeado barco rival.
+        int fila;
+        int columna;
+        do {
+            double filas =Math.random() *10;
+            fila = (int) filas;
+            double columnas = Math.random() * 10;
+            columna = (int) columnas;
+            System.out.println("El enemigo ha disparado en la posición: " + fila + ","  + columna);
+            System.out.println("Turno del rival............");
+            nuevo.disparoEnemigo(fila, columna);
+
+        }while (nuevo.getCasillasUsuario()[fila][columna] == 2);
+
+
+    }
+
+    public static void bombaAtomica(Tablero nuevo, Scanner sc){
+
+
 
     }
 }
